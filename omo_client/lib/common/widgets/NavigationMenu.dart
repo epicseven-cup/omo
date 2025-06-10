@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +18,6 @@ class NavigationMenu extends StatefulWidget {
     required this.mainContent,
     required this.duration,
     required this.title,
-
-
-
-
   });
 
   @override
@@ -32,19 +29,49 @@ class _NavigationMenuState extends State<NavigationMenu>
   bool _navigationMenuOpen = false;
 
   late AnimationController _controller;
+  late Animation<Offset> _offset;
+  late Animation<Offset> _offsetMain;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this, duration: widget.duration);
+    _offset = Tween<Offset>(
+      begin: const Offset(-1.0, 0.0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.elasticInOut));
+
+    // _offsetMain = Tween<Offset>(
+    //   begin: Offset.zero,
+    //   end: Offset(0.2, 0.0),
+    // ).animate(CurvedAnimation(parent: _controller, curve: Curves.elasticInOut));
+    _controller.addStatusListener((status) {
+      if (status.isAnimating) {
+        setState(() {
+          _navigationMenuOpen = true;
+        });
+      }
+
+      if (status.isDismissed) {
+        setState(() {
+          _navigationMenuOpen = false;
+        });
+      }
+    });
   }
 
   void closeMenu() {
-    _controller.forward();
+    _controller.reverse();
   }
 
   void openMenu() {
-    _controller.reverse();
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -55,8 +82,7 @@ class _NavigationMenuState extends State<NavigationMenu>
         leading: IconButton(
           onPressed: () {
             setState(() {
-              _navigationMenuOpen = !_navigationMenuOpen;
-              if (_navigationMenuOpen) {
+              if (!_navigationMenuOpen) {
                 openMenu();
               } else {
                 closeMenu();
@@ -68,21 +94,32 @@ class _NavigationMenuState extends State<NavigationMenu>
       ),
       body: Row(
         children: [
-          // Only return when the menu is open
-          _navigationMenuOpen
-              ?
-          Container(
-            width: 220,
-            decoration: BoxDecoration(
-              border: Border(right:  BorderSide(color: Theme.of(context).dividerColor))
-            ),
-              child: Column(
-                  // Should I force it to be ListTiles?
-                  children: widget.menuItems,
-                )
-          )
-              : SizedBox.shrink(),
-          Expanded(child: Center(child: widget.mainContent,))
+          AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              return SizedBox(
+                width: 220 * _controller.value,
+                child: SlideTransition(
+                  position: _offset,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        right: BorderSide(
+                          color: Theme.of(context).dividerColor,
+                        ),
+                      ),
+                    ),
+                    child: Column(
+                      // Should I force it to be ListTiles?
+                      children: widget.menuItems,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+
+          Expanded(child: Center(child: widget.mainContent)),
         ],
       ),
     );
