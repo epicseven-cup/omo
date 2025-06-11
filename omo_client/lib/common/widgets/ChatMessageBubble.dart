@@ -5,12 +5,15 @@ class ChatMessageBubble extends StatelessWidget {
     super.key,
     required this.message,
     required this.isSender,
-    required this.color,
+    required this.backgroundColor,
+    required this.textColor
   });
 
   final String message;
   final bool isSender;
-  final Color color;
+  final Color backgroundColor;
+  final Color textColor;
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +24,9 @@ class ChatMessageBubble extends StatelessWidget {
             ? MainAxisAlignment.end
             : MainAxisAlignment.start,
         children: [
-          Flexible(
-            child: Container(
+            Container(
               decoration: BoxDecoration(
-                color: color,
+                color: backgroundColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15),
                   topRight: Radius.circular(15),
@@ -33,9 +35,10 @@ class ChatMessageBubble extends StatelessWidget {
                 ),
               ),
               padding: EdgeInsets.all(16.0),
-              child: Text(message),
+              child: Text(message, style: TextStyle(
+                color: textColor
+              ),),
             ),
-          ),
         ],
       ),
     );

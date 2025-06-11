@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
       duration: Duration(milliseconds: 500),
-      title: "omo client",
+      title: "OmO",
       menuItems: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -101,6 +101,26 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
 
         Divider(),
+
+        ListView.builder(itemBuilder: (context, index){
+          return ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                // borderRadius: BorderRadius.circular(5.0),
+              ),
+            ),
+            onPressed: () {
+              if (kDebugMode) {
+                print("Button Clicked");
+              }
+            },
+            child: NavigationMenuItem(
+              icon: Icon(Icons.group),
+              title: _chats[index],
+            ),
+          );
+        })
+
       ],
     );
   }
