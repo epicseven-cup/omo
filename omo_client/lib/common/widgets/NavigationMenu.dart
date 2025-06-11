@@ -79,6 +79,8 @@ class _NavigationMenuState extends State<NavigationMenu>
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).secondaryHeaderColor,
         leading: IconButton(
           onPressed: () {
             setState(() {
@@ -97,25 +99,32 @@ class _NavigationMenuState extends State<NavigationMenu>
           AnimatedBuilder(
             animation: _controller,
             builder: (context, child) {
-              return SizedBox(
-                width: 220 * _controller.value,
-                child: SlideTransition(
-                  position: _offset,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        right: BorderSide(
-                          color: Theme.of(context).dividerColor,
+              // Cutting off the last reminding of the animation since it will pop itself up making it look weird
+              if (_controller.value > 0.2) {
+                return SizedBox(
+                  width: 200 * _controller.value,
+                  child: SlideTransition(
+                    position: _offset,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          right: BorderSide(
+                            color: Theme
+                                .of(context)
+                                .dividerColor,
+                          ),
                         ),
                       ),
-                    ),
-                    child: Column(
-                      // Should I force it to be ListTiles?
-                      children: widget.menuItems,
+                      child: Column(
+                        // Should I force it to be ListTiles?
+                        children: widget.menuItems,
+                      ),
                     ),
                   ),
-                ),
-              );
+                );
+              }else {
+                return SizedBox.shrink();
+              }
             },
           ),
 
