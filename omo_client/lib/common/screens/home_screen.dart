@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:omo_client/common/widgets/ChatDisplay.dart';
 
 import '../widgets/NavigationMenu.dart';
 import '../widgets/NavigationMenuItem.dart';
@@ -29,12 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      'Have Fun chatting',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ),
+                  Expanded(child: ChatDisplay()),
                   SafeArea(
                     child: Column(
                       children: [
@@ -70,10 +66,27 @@ class _HomeScreenState extends State<HomeScreen> {
       duration: Duration(milliseconds: 500),
       title: "omo client",
       menuItems: [
-        ElevatedButton(
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  // borderRadius: BorderRadius.circular(5.0),
+                ),
+              ),
+              onPressed: () {
+                if (kDebugMode) {
+                  print("Button Clicked");
+                }
+              },
+              child: NavigationMenuItem(
+                icon: Icon(Icons.add),
+                title: "New Chat",
+              ),
+        ),
+
+            ElevatedButton(
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
+              // borderRadius: BorderRadius.circular(5.0),
             ),
           ),
           onPressed: () {
@@ -81,8 +94,13 @@ class _HomeScreenState extends State<HomeScreen> {
               print("Button Clicked");
             }
           },
-          child: NavigationMenuItem(icon: Icon(Icons.add), title: "New Chat"),
+          child: NavigationMenuItem(
+            icon: Icon(Icons.group_add),
+            title: "Join Chat",
+          ),
         ),
+
+        Divider(),
       ],
     );
   }
