@@ -27,12 +27,11 @@ class _ChatDisplayState extends State<ChatDisplay> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Expanded(
-        child: ListView.builder(
+    return
+        ListView.builder(
             itemCount: messages.length,
             itemBuilder: (context, index){
             return messages[index];
-          })
-    );
+          });
   }
 }

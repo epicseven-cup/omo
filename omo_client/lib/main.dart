@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
       ),
-      home: const HomeScreen(title: 'omo client'),
+      home: const HomeScreen(title: 'omo'),
     );
   }
 }

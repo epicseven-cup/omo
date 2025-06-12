@@ -28,10 +28,10 @@ class ChatMessageBubble extends StatelessWidget {
               decoration: BoxDecoration(
                 color: backgroundColor,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                  bottomLeft: isSender ? Radius.circular(15) : Radius.zero,
-                  bottomRight: isSender ? Radius.zero : Radius.circular(15),
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
+                  bottomLeft: isSender ? Radius.circular(40) : Radius.zero,
+                  bottomRight: isSender ? Radius.zero : Radius.circular(40),
                 ),
               ),
               padding: EdgeInsets.all(16.0),

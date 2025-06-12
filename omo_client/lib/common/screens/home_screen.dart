@@ -9,12 +9,30 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.title});
 
   final String title;
-
+  // This data will be fetch via websocket
+  static const List<String> chats = [
+    "Group Chat #1",
+    "Group Chat #2",
+    "Group Chat #3",
+    "Group Chat #4",
+    "Group Chat #5",
+    "Group Chat #6",
+    "Group Chat #7",
+    "Group Chat #8",
+    "Group Chat #9",
+    "Group Chat #10",
+    "Group Chat #11",
+    "Group Chat #12",
+    "Group Chat #13",
+    "Group Chat #14",
+    "Group Chat #15",
+  ];
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   @override
   Widget build(BuildContext context) {
     return NavigationMenu(
@@ -64,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
       duration: Duration(milliseconds: 500),
-      title: "OmO",
+      title: widget.title,
       menuItems: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -102,7 +120,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
         Divider(),
 
-        ListView.builder(itemBuilder: (context, index){
+        Flexible(child:
+        ListView.builder(
+          itemCount: HomeScreen.chats.length,
+            itemBuilder: (context, index){
           return ElevatedButton(
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
@@ -116,10 +137,19 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: NavigationMenuItem(
               icon: Icon(Icons.group),
-              title: _chats[index],
+              // Idk weird access here
+              title: HomeScreen.chats[index],
             ),
           );
-        })
+        })),
+        
+        Divider(),
+        Column(
+          children: [
+            NavigationMenuItem(icon: Icon(Icons.login), title: "Login"),
+            NavigationMenuItem(icon: Icon(Icons.add), title: "Signup"),
+          ],
+        )
 
       ],
     );
